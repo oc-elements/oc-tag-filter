@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="oc-tag-filter">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `oc-tag-filter`
+     * A element that displays a list of tags to filter product list
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class OcTagFilter extends Polymer.Element {
+      static get is() { return 'oc-tag-filter'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'oc-tag-filter'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(OcTagFilter.is, OcTagFilter);
+  </script>
+</dom-module>
