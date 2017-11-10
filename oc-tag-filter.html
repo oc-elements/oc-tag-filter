@@ -1,37 +1,70 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<!-- Ensure Web Animations polyfill is loaded since neon-animation 2.0 doesn't import it -->
+<link rel="import" href="../neon-animation/web-animations.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
 
 <dom-module id="oc-tag-filter">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <template is="dom-repeat" items="tagList">
-        [[item.name]] - [[item.id]]
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <paper-dropdown-menu label="Category" >
+            <paper-listbox id="category"
+                           slot="dropdown-content"
+                           selected={{selectedCategory}} >
+                <template is="dom-repeat" items="[[tagList]]" >
+                    <paper-item index="[[item.id]]" >[[_capatalize(item.name)]]</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
     </template>
-  </template>
 
-  <script>
-    /**
-     * `oc-tag-filter`
-     * A element that displays a list of tags to filter product list
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class OcTagFilter extends Polymer.Element {
-      static get is() { return 'oc-tag-filter'; }
-      static get properties() {
-        return {
-          tagList:{
-              type: Object
-          }
-        };
-      }
-    }
+    <script>
+        /**
+         * `oc-tag-filter`
+         * A element that displays a list of tags to filter product list
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class OcTagFilter extends Polymer.Element {
+            static get is() { return 'oc-tag-filter'; }
+            static get properties() {
+                return {
+                    tagList:{
+                        type: Object
+                    },
+                    selectedCategory: {
+                        type: Number,
+                        observer: '_selectCategory'
+                    }
+                };
+            }
 
-    window.customElements.define(OcTagFilter.is, OcTagFilter);
-  </script>
+            /**
+             * Sets the currently selected category
+             * @param selected category id
+             * @private
+             */
+            _selectCatagory(selected) {
+                this.dispatchEvent(new CustomEvent('select-category', {
+                    bubbles: true, composed: true, detail:
+                        {id: selected}
+                }));
+            }
+
+            //Capatalizes a string
+            _capatalize(string){
+                return String(string).charAt(0).toUpperCase() + string.slice(1);
+
+            }
+        }
+
+        window.customElements.define(OcTagFilter.is, OcTagFilter);
+    </script>
 </dom-module>
