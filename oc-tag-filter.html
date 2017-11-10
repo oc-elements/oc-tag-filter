@@ -7,7 +7,9 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <template is="dom-repeat" items="tagList">
+        [[item.name]] - [[item.id]]
+    </template>
   </template>
 
   <script>
@@ -23,9 +25,8 @@
       static get is() { return 'oc-tag-filter'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'oc-tag-filter'
+          tagList:{
+              type: Object
           }
         };
       }
