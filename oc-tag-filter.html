@@ -2,6 +2,8 @@
 <!-- Ensure Web Animations polyfill is loaded since neon-animation 2.0 doesn't import it -->
 <link rel="import" href="../neon-animation/web-animations.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 
@@ -12,15 +14,21 @@
                 display: block;
             }
         </style>
-        <paper-dropdown-menu label="Category" >
-            <paper-listbox id="category"
-                           slot="dropdown-content"
-                           selected={{selectedCategory}} >
-                <template is="dom-repeat" items="[[tagList]]" >
-                    <paper-item index="[[item.id]]" >[[_capatalize(item.name)]]</paper-item>
-                </template>
-            </paper-listbox>
-        </paper-dropdown-menu>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <paper-dropdown-menu label="Catagories" >
+                        <paper-listbox id="accountId"
+                                       slot="dropdown-content"
+                                       selected={{selectedIndex}} >
+                            <template is="dom-repeat" items="[[tagList]]" >
+                                <paper-item index="[[item.id]]" >[[_capatalize(item.name)]]</paper-item>
+                            </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </div>
+            </div>
+        </div>
     </template>
 
     <script>
@@ -39,29 +47,26 @@
                     tagList:{
                         type: Object
                     },
-                    selectedCategory: {
+                    selectedIndex:{
                         type: Number,
-                        observer: '_selectCategory'
+                        observer: '_tagChanged'
+                    },
+                    selectedTag: {
+                        type: Number,
+                        notify:true
                     }
                 };
-            }
-
-            /**
-             * Sets the currently selected category
-             * @param selected category id
-             * @private
-             */
-            _selectCatagory(selected) {
-                this.dispatchEvent(new CustomEvent('select-category', {
-                    bubbles: true, composed: true, detail:
-                        {id: selected}
-                }));
             }
 
             //Capatalizes a string
             _capatalize(string){
                 return String(string).charAt(0).toUpperCase() + string.slice(1);
 
+            }
+
+            //Find the tag id
+            _tagChanged(index){
+                this.selectedTag = this.tagList[index].id;
             }
         }
 
