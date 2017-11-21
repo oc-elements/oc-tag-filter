@@ -54,7 +54,8 @@
                     selectedTag: {
                         type: Number,
                         notify:true
-                    }
+                    },
+
                 };
             }
 
@@ -66,7 +67,9 @@
 
             //Find the tag id
             _tagChanged(index){
-                this.selectedTag = this.tagList[index].id;
+                if(this.tagList.length > 0) {
+                    this.selectedTag = this.tagList[index].id;
+                }
             }
         }
 
