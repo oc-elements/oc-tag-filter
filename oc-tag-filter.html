@@ -45,16 +45,18 @@
             static get properties() {
                 return {
                     tagList:{
-                        type: Object
+                        type: Array
                     },
                     selectedIndex:{
                         type: Number,
-                        observer: '_tagChanged'
+                        observer: '_tagChanged',
+                        value: 0
                     },
                     selectedTag: {
                         type: Number,
                         notify:true
-                    }
+                    },
+
                 };
             }
 
@@ -66,7 +68,10 @@
 
             //Find the tag id
             _tagChanged(index){
-                this.selectedTag = this.tagList[index].id;
+
+                if((this.tagList)&&(this.tagList.length > 0)) {
+                    this.selectedTag = this.tagList[index].id;
+                }
             }
         }
 
