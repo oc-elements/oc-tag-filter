@@ -68,7 +68,8 @@
 
             //Find the tag id
             _tagChanged(index){
-                if(this.tagList.length > 0) {
+
+                if((this.tagList)&&(this.tagList.length > 0)) {
                     this.selectedTag = this.tagList[index].id;
                 }
             }
